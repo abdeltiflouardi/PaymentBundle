@@ -1,3 +1,0 @@
-OSPaymentBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: OSPaymentBundle:Default:index }

@@ -2,6 +2,6 @@ parameters:
     payment.factory.class: OS\PaymentBundle\PaymentFactory
 
 services:
-    payment.facotry:
+    payment.factory:
         class: %payment.factory.class%
         arguments: []
