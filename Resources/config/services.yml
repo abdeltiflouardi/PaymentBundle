@@ -1,0 +1,7 @@
+parameters:
+    payment.factory.class: OS\PaymentBundle\PaymentFactory
+
+services:
+    payment.facotry:
+        class: %payment.factory.class%
+        arguments: []
