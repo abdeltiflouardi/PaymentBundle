@@ -17,16 +17,21 @@ class PaymentFactory
         return $this->getPlugin()->$name($arguments);
     }
 
-    public function getPlugin()
+    public function getPlugin($plugin = null)
     {
+        if ($plugin) {
+            $this->setPlugin($plugin);
+        }
+
         return $this->plugin;
     }
 
     public function setPlugin($plugin)
     {
         $exists = true;
-        if (!class_exists($plugin))
+        if (!class_exists($plugin)) {
             $exists = false;
+        }
 
         if (!class_exists(sprintf('OS\\PaymentBundle\\Plugins\\%s', $plugin)) && !$exists) {
             $exists = false;
@@ -35,8 +40,9 @@ class PaymentFactory
             $exists = true;
         }
 
-        if ($exists == false)
+        if ($exists == false) {
             throw new Exception(sprintf('Plugin %s not found.', $plugin));
+        }
 
         $this->plugin = new $plugin;
 
