@@ -81,7 +81,7 @@ class Wirecard
      * @var string 
      */
     private $xmlSchema;
-    
+
     /**
      *
      * @return string 
@@ -157,7 +157,7 @@ class Wirecard
     {
         $this->url = $url;
     }
-    
+
     /**
      *
      * @return array 
@@ -264,7 +264,7 @@ class Wirecard
     public function setParameters($parameters)
     {
         $this->parameters = $parameters;
-    }    
+    }
 
     /**
      *
@@ -341,7 +341,7 @@ class Wirecard
                 throw new Exception(sprintf('You must define "%s" parameter.', $param));
             }
 
-            call_user_func(array($this, 'set'. $param), $this->parameters[$param]);
+            call_user_func(array($this, 'set' . $param), $this->parameters[$param]);
         }
 
         // generate params
@@ -370,7 +370,7 @@ class Wirecard
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($ch, CURLOPT_CAINFO, __DIR__.'/../tcclass3-2011.pem');
+        curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/../tcclass3-2011.pem');
         curl_setopt($ch, CURLOPT_USERAGENT, 'WireCard Payment Request');
         curl_setopt($ch, CURLOPT_FAILONERROR, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
@@ -481,8 +481,9 @@ class Wirecard
             '{{ City }}'                  => null,
             '{{ Address1 }}'              => null,
             '{{ IPAddress }}'             => null,
-        );   
+        );
 
         return $params;
     }
+
 }
