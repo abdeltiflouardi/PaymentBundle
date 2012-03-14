@@ -11,6 +11,12 @@ class PaymentFactory
 {
 
     private $plugin;
+    private $container;
+
+    function __construct($container)
+    {
+        $this->container = $container;
+    }
 
     public function __call($name, $arguments)
     {
@@ -21,6 +27,10 @@ class PaymentFactory
     {
         if ($plugin) {
             $this->setPlugin($plugin);
+        }
+
+        if (method_exists($this->plugin, 'setContainer')) {
+            $this->plugin->setContainer($this->container);
         }
 
         return $this->plugin;

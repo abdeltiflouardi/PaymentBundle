@@ -4,4 +4,4 @@ parameters:
 services:
     payment.factory:
         class: %payment.factory.class%
-        arguments: []
+        arguments: ['@service_container']
