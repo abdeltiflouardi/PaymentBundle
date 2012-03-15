@@ -20,7 +20,8 @@ class PaymentFactory
 
     public function __call($name, $arguments)
     {
-        return $this->getPlugin()->$name($arguments);
+        $plugin = $this->getPlugin();
+        return call_user_func_array(array($plugin, $name), $arguments);        
     }
 
     public function getPlugin($plugin = null)

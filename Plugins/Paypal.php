@@ -100,19 +100,21 @@ class Paypal
         if (array_key_exists('env', $options)) {
             $this->setEnv($options['env']);
 
-            unset($options['env']);            
+            unset($options['env']);
         }
 
         switch ($this->getEnv()) {
-            case 'default': $this->setUri(static::URI_PAYPAL_DEFAULT);break;
-            case 'sandbox': $this->setUri(static::URI_PAYPAL_SANDBOX);break;
+            case 'default': $this->setUri(static::URI_PAYPAL_DEFAULT);
+                break;
+            case 'sandbox': $this->setUri(static::URI_PAYPAL_SANDBOX);
+                break;
         }
 
         $this->options = $options;
 
         return $this;
     }
-    
+
     /**
      *
      * @return type 
@@ -160,6 +162,7 @@ class Paypal
 
         return $this;
     }
+
     /**
      * 
      */
@@ -197,7 +200,7 @@ class Paypal
 
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $this->getUrl());
+        curl_setopt($ch, CURLOPT_URL, $this->getUri());
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -231,7 +234,7 @@ class Paypal
 
         return $this;
     }
-    
+
     /**
      *
      * @return type 
@@ -248,6 +251,6 @@ class Paypal
     public function setResultCURL($resultCURL)
     {
         $this->resultCURL = $resultCURL;
-    }    
+    }
 
 }
