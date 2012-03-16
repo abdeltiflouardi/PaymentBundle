@@ -10,6 +10,9 @@ use Exception;
 class Wirecard
 {
 
+    CONST HOST_DEMO = 'c3-test.wirecard.com';
+    CONST HOST_LIVE = 'c3.wirecard.com';
+
     /**
      *
      * @var string 
@@ -263,6 +266,17 @@ class Wirecard
      */
     public function setParameters($parameters)
     {
+        if (array_key_exists('Mode', $parameters)) {
+            switch ($parameters['Mode']) {
+                case 'demo': 
+                    $this->setHost(static::HOST_DEMO);
+                    break;
+                default:
+                    $this->setHost(static::HOST_LIVE);
+                    ;
+            }
+        }
+
         $this->parameters = $parameters;
     }
 
