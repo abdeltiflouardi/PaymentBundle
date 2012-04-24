@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse,
 class Paypal
 {
 
-    CONST URI_PAYPAL_SANDBOX = 'https://www.sandbox.paypal.com/fr/cgi-bin/webscr';
-    CONST URI_PAYPAL_DEFAULT = 'https://www.paypal.com/fr/cgi-bin/webscr';
+    CONST URI_PAYPAL_SANDBOX = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+    CONST URI_PAYPAL_DEFAULT = 'https://www.paypal.com/cgi-bin/webscr';
 
     private $uri;
     private $url;
