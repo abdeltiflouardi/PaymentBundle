@@ -344,7 +344,7 @@ class Wirecard
     /**
      * 
      */
-    public function getGuWID()
+    public function getParam($param)
     {
         if (!$this->getResults()) {
             return;
@@ -353,7 +353,15 @@ class Wirecard
         $domxml = new DOMDocument();
         $domxml->loadXML($this->getResults());
 
-        return $domxml->getElementsByTagName('GuWID')->item(0)->nodeValue;
+        return $domxml->getElementsByTagName($param)->item(0)->nodeValue;
+    }
+
+    /**
+     * 
+     */
+    public function getGuWID()
+    {
+        return $this->getParam('GuWID');
     }
 
     /**
@@ -474,7 +482,7 @@ class Wirecard
      */
     public function xmlPurchaseRepeated()
     {
-        $xmlStr = "<? xml version = '1.0' encoding = 'UTF-8' ?>
+        $xmlStr = "<?xml version = '1.0' encoding = 'UTF-8' ?>
 <WIRECARD_BXML xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'>
     <W_REQUEST>
         <W_JOB>
@@ -508,7 +516,7 @@ class Wirecard
      */
     public function xmlAuthorization()
     {
-        $xmlStr = "<? xml version = '1.0' encoding = 'UTF-8' ?>
+        $xmlStr = "<?xml version = '1.0' encoding = 'UTF-8' ?>
 <WIRECARD_BXML xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'>
     <W_REQUEST>
         <W_JOB>
@@ -517,11 +525,9 @@ class Wirecard
                 <FunctionID>{{ FunctionID }}</FunctionID>
                 <CC_TRANSACTION mode='{{ Mode }}'>
                     <TransactionID>{{ TransactionID }}</TransactionID>
-                    <CommerceType>eCommerce</CommerceType>
                     <Amount>{{ Amount }}</Amount>
                     <Currency>{{ Currency }}</Currency>
                     <CountryCode>{{ CountryCode }}</CountryCode>
-                    <Usage>{{ Usage }}</Usage>
                     <RECURRING_TRANSACTION>
                         <Type>Initial</Type>
                     </RECURRING_TRANSACTION>
@@ -575,6 +581,7 @@ class Wirecard
             '{{ City }}'                  => null,
             '{{ Address1 }}'              => null,
             '{{ IPAddress }}'             => null,
+            '{{ Usage }}'                 => null,
         );
 
         return $params;
