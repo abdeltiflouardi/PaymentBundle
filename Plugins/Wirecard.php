@@ -2,7 +2,8 @@
 
 namespace OS\PaymentBundle\Plugins;
 
-use Exception;
+use Exception,
+    DOMDocument;
 
 /**
  * @author ouardisoft
@@ -84,6 +85,12 @@ class Wirecard
      * @var string 
      */
     private $xmlSchema;
+
+    /**
+     *
+     * @var string 
+     */
+    private $actionType;
 
     /**
      *
@@ -268,7 +275,7 @@ class Wirecard
     {
         if (array_key_exists('Mode', $parameters)) {
             switch ($parameters['Mode']) {
-                case 'demo': 
+                case 'demo':
                     $this->setHost(static::HOST_DEMO);
                     break;
                 default:
@@ -317,6 +324,39 @@ class Wirecard
     }
 
     /**
+     *
+     * @return type 
+     */
+    public function getActionType()
+    {
+        return $this->actionType;
+    }
+
+    /**
+     *
+     * @param type $actionType 
+     */
+    public function setActionType($actionType)
+    {
+        $this->actionType = $actionType;
+    }
+
+    /**
+     * 
+     */
+    public function getGuWID()
+    {
+        if (!$this->getResults()) {
+            return;
+        }
+
+        $domxml = new DOMDocument();
+        $domxml->loadXML($this->getResults());
+
+        return $domxml->getElementsByTagName('GuWID')->item(0)->nodeValue;
+    }
+
+    /**
      * 
      */
     public function execute($parameters = array())
@@ -342,7 +382,7 @@ class Wirecard
     public function dispatch()
     {
         // mandatory params
-        $mandatoryParams = array('Login', 'Password', 'BusinessCaseSignature');
+        $mandatoryParams = array('Login', 'Password', 'BusinessCaseSignature', 'ActionType');
         foreach ($mandatoryParams as $param) {
             if (!array_key_exists($param, $this->parameters)) {
                 throw new Exception(sprintf('You must define "%s" parameter.', $param));
@@ -356,7 +396,7 @@ class Wirecard
         $headers[0] = 'Business Case Signature : ' . $this->getBusinessCaseSignature();
         $headers[1] = 'Content-Type : text/xml';
 
-        $this->setHeaders($headers);        
+        $this->setHeaders($headers);
 
         // generate params
         $params = array();
@@ -424,22 +464,66 @@ class Wirecard
      */
     public function generateXmlSchema()
     {
-        $xmlStr = "<?xml version = '1.0' encoding = 'UTF-8' ?>
-<WIRECARD_BXML xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'
-            xsi:noNamespaceSchemaLocation='wirecard.xsd'>
+        call_user_func(array($this, 'xml' . $this->getActionType()));
+    }
+
+    /**
+     * PurchaseRepeated
+     * 
+     * @return \OS\PaymentBundle\Plugins\Wirecard 
+     */
+    public function xmlPurchaseRepeated()
+    {
+        $xmlStr = "<? xml version = '1.0' encoding = 'UTF-8' ?>
+<WIRECARD_BXML xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'>
     <W_REQUEST>
         <W_JOB>
             <JobID>{{ JobID }}</JobID>
             <BusinessCaseSignature>{{ BusinessCaseSignature }}</BusinessCaseSignature>
-            <FNC_CC_TRANSACTION mode='{{ Mode }}'>
+            <FNC_CC_PURCHASE>
                 <FunctionID>{{ FunctionID }}</FunctionID>
-                <CC_TRANSACTION>
+                <CC_TRANSACTION mode='{{ Mode }}'>
                     <TransactionID>{{ TransactionID }}</TransactionID>
+                    <GuWID>{{ GuWID }}</GuWID>
+                    <RECURRING_TRANSACTION>
+                        <Type>Repeated</Type>
+                    </RECURRING_TRANSACTION>
+                    <COST_CENTER_DATA>
+                        <CostAccountNumber></CostAccountNumber>
+                    </COST_CENTER_DATA>
+                </CC_TRANSACTION>
+            </FNC_CC_PURCHASE>
+        </W_JOB>
+    </W_REQUEST>
+</WIRECARD_BXML>";
+
+        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return \OS\PaymentBundle\Plugins\Wirecard 
+     */
+    public function xmlAuthorization()
+    {
+        $xmlStr = "<? xml version = '1.0' encoding = 'UTF-8' ?>
+<WIRECARD_BXML xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'>
+    <W_REQUEST>
+        <W_JOB>
+            <BusinessCaseSignature>{{ BusinessCaseSignature }}</BusinessCaseSignature>
+            <FNC_CC_AUTHORIZATION>
+                <FunctionID>{{ FunctionID }}</FunctionID>
+                <CC_TRANSACTION mode='{{ Mode }}'>
+                    <TransactionID>{{ TransactionID }}</TransactionID>
+                    <CommerceType>eCommerce</CommerceType>
                     <Amount>{{ Amount }}</Amount>
                     <Currency>{{ Currency }}</Currency>
                     <CountryCode>{{ CountryCode }}</CountryCode>
+                    <Usage>{{ Usage }}</Usage>
                     <RECURRING_TRANSACTION>
-                        <Type>Single</Type>
+                        <Type>Initial</Type>
                     </RECURRING_TRANSACTION>
                     <CREDIT_CARD_DATA>
                         <CreditCardNumber>{{ CreditCardNumber }}</CreditCardNumber>
@@ -451,26 +535,22 @@ class Wirecard
                     <CONTACT_DATA>
                         <IPAddress>{{ IPAddress }}</IPAddress>
                     </CONTACT_DATA>
-                    <CORPTRUSTCENTER_DATA>
-                        <ADDRESS>
-                            <Address1>{{ Address1 }}</Address1>
-                            <City>{{ City }}</City>
-                            <ZipCode>{{ ZipCode }}</ZipCode>
-                            <State>{{ State }}</State>
-                            <Country>{{ Country }}</Country>
-                            <Phone>{{ Phone }}</Phone>
-                            <Email>{{ Email }}</Email>
-                        </ADDRESS>
-                    </CORPTRUSTCENTER_DATA>
                 </CC_TRANSACTION>
-            </FNC_CC_TRANSACTION>
+            </FNC_CC_AUTHORIZATION>
         </W_JOB>
     </W_REQUEST>
-</WIRECARD_BXML>";
+</WIRECARD_BXML>
+";
 
-        $this->xmlSchema = str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr);
+        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+
+        return $this;
     }
 
+    /**
+     *
+     * @return null 
+     */
     public function getDefaultParameters()
     {
         $params = array(
