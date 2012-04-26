@@ -341,13 +341,6 @@ class Wirecard
      */
     public function dispatch()
     {
-        // headers
-        $headers = array();
-        $headers[0] = 'Business Case Signature : ' . $this->getBusinessCaseSignature();
-        $headers[1] = 'Content-Type : text/xml';
-
-        $this->setHeaders($headers);
-
         // mandatory params
         $mandatoryParams = array('Login', 'Password', 'BusinessCaseSignature');
         foreach ($mandatoryParams as $param) {
@@ -357,6 +350,13 @@ class Wirecard
 
             call_user_func(array($this, 'set' . $param), $this->parameters[$param]);
         }
+
+        // headers
+        $headers = array();
+        $headers[0] = 'Business Case Signature : ' . $this->getBusinessCaseSignature();
+        $headers[1] = 'Content-Type : text/xml';
+
+        $this->setHeaders($headers);        
 
         // generate params
         $params = array();
