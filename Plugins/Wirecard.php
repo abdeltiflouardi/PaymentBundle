@@ -482,7 +482,7 @@ class Wirecard
      */
     public function xmlPurchaseRepeated()
     {
-        $xmlStr = "<?xml version = '1.0' encoding = 'UTF-8' ?>
+        $xmlStr = "<?xml version='1.0' encoding='UTF-8' ?>
 <WIRECARD_BXML xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'>
     <W_REQUEST>
         <W_JOB>
@@ -505,6 +505,14 @@ class Wirecard
     </W_REQUEST>
 </WIRECARD_BXML>";
 
+        $params = $this->getParameters();
+        if ($params['{{ Amount }}']) {
+            $findMe = '</TransactionID>';
+            $replaceBy = '</TransactionID><Amount>{{ Amount }}</Amount>';
+
+            $xmlStr = str_replace($findMe, $replaceBy, $xmlStr);
+        }
+
         $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
 
         return $this;
@@ -516,7 +524,7 @@ class Wirecard
      */
     public function xmlAuthorization()
     {
-        $xmlStr = "<?xml version = '1.0' encoding = 'UTF-8' ?>
+        $xmlStr = "<?xml version='1.0' encoding='UTF-8' ?>
 <WIRECARD_BXML xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'>
     <W_REQUEST>
         <W_JOB>
