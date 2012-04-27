@@ -109,3 +109,20 @@ Purchase Repeated
 
         var_dump($r, $exec->getGuWID());
         exit;
+
+Query example:
+
+        $options = array(
+            'Login'                 => 56500,
+            'Password'              => 'TestXAPTER',
+            'BusinessCaseSignature' => '56500',
+            'Mode'                  => 'demo',
+            'ActionType'            => 'Query',
+            'GuWID'                 => $guwid,
+        );
+
+        $query = $this->get('payment.factory');
+        $query->execute(array('plugin'  => 'Wirecard', 'options' => $options));
+
+        var_dump($query->getResults());
+        exit;

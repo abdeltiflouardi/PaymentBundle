@@ -519,7 +519,8 @@ class Wirecard
     }
 
     /**
-     *
+     * Authorization
+     * 
      * @return \OS\PaymentBundle\Plugins\Wirecard 
      */
     public function xmlAuthorization()
@@ -555,6 +556,32 @@ class Wirecard
     </W_REQUEST>
 </WIRECARD_BXML>
 ";
+
+        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+
+        return $this;
+    }
+
+    /**
+     * Query
+     * 
+     * @return \OS\PaymentBundle\Plugins\Wirecard 
+     */
+    public function xmlQuery()
+    {
+        $xmlStr = '<?xml version="1.0" encoding="UTF-8" ?>
+<WIRECARD_BXML xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance">
+    <W_REQUEST>
+        <W_JOB>
+            <BusinessCaseSignature>{{ BusinessCaseSignature }}</BusinessCaseSignature>
+            <FNC_CC_QUERY type="detail">
+                <CC_TRANSACTION>
+                    <GuWID>{{ GuWID }}</GuWID>
+                </CC_TRANSACTION>
+            </FNC_CC_QUERY>
+        </W_JOB>
+    </W_REQUEST>
+</WIRECARD_BXML>';
 
         $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
 
