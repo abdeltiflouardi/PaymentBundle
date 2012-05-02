@@ -1,7 +1,7 @@
 {
   "name": "os/payment-bundle",
   "description": "OS Payment Bundle for Symfony2",
-  "keywords": ["excel"],
+  "keywords": ["payment", "wirecard", "paypal", "saferpay"],
   "homepage": "http://github.com/ouardisoft/PaymentBundle",
   "type": "symfony-bundle",
   "license": "MIT",
