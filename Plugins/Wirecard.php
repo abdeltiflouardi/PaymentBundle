@@ -563,6 +563,37 @@ class Wirecard
     }
 
     /**
+     * CaptureAuthorization
+     * 
+     * @return \OS\PaymentBundle\Plugins\Wirecard 
+     */
+    public function xmlCaptureAuthorization()
+    {
+        $xmlStr = "<?xml version='1.0' encoding='UTF-8'?>
+<WIRECARD_BXML xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'>
+    <W_REQUEST>
+        <W_JOB>
+            <JobID>{{ JobID }}</JobID>
+            <BusinessCaseSignature>{{ BusinessCaseSignature }}</BusinessCaseSignature>
+            <FNC_CC_CAPTURE_AUTHORIZATION>
+                <FunctionID>{{ FunctionID }}</FunctionID>
+                <CC_TRANSACTION mode='{{ Mode }}'>
+                    <TransactionID>{{ TransactionID }}</TransactionID>
+                    <GuWID>{{ GuWID }}</GuWID>
+                    <Amount minorunits='2'>{{ Amount }}</Amount>
+                </CC_TRANSACTION>
+            </FNC_CC_CAPTURE_AUTHORIZATION>
+        </W_JOB>
+    </W_REQUEST>
+</WIRECARD_BXML>
+";
+
+        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+
+        return $this;
+    }
+
+    /**
      * Query
      * 
      * @return \OS\PaymentBundle\Plugins\Wirecard 
