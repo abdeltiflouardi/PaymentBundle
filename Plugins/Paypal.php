@@ -13,6 +13,9 @@ class Paypal
 
     CONST URI_PAYPAL_SANDBOX = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
     CONST URI_PAYPAL_DEFAULT = 'https://www.paypal.com/cgi-bin/webscr';
+    
+    CONST IPN_VALIDATE_RESPONSE_INVALID = 'INVALID';
+    CONST IPN_VALIDATE_RESPONSE_VERIFIED = 'VERIFIED';
 
     private $uri;
     private $url;
@@ -191,6 +194,15 @@ class Paypal
         return array();
     }
 
+    /**
+     * Validate an ipn
+     * 
+     * Paypal return a string (self::IPN_RESPONSE_INVALID 
+     * or self::IPN_RESPONSE_VERIFIED)
+     * @see https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_admin_IPNIntro#id089BD0706YK
+     * 
+     * @return \OS\PaymentBundle\Plugins\Paypal
+     */
     public function validate()
     {
         $request = $this->getContainer()->get('request')->request;
