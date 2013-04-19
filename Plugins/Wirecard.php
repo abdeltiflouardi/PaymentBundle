@@ -2,17 +2,14 @@
 
 namespace OS\PaymentBundle\Plugins;
 
-use Exception,
-    DOMDocument;
-
 /**
  * @author ouardisoft
  */
 class Wirecard
 {
 
-    CONST HOST_DEMO = 'c3-test.wirecard.com';
-    CONST HOST_LIVE = 'c3.wirecard.com';
+    const HOST_DEMO = 'c3-test.wirecard.com';
+    const HOST_LIVE = 'c3.wirecard.com';
 
     /**
      *
@@ -350,7 +347,7 @@ class Wirecard
             return;
         }
 
-        $domxml = new DOMDocument();
+        $domxml = new \DOMDocument();
         $domxml->loadXML($this->getResults());
 
         return $domxml->getElementsByTagName($param)->item(0)->nodeValue;
@@ -393,7 +390,7 @@ class Wirecard
         $mandatoryParams = array('Login', 'Password', 'BusinessCaseSignature', 'ActionType');
         foreach ($mandatoryParams as $param) {
             if (!array_key_exists($param, $this->parameters)) {
-                throw new Exception(sprintf('You must define "%s" parameter.', $param));
+                throw new \Exception(sprintf('You must define "%s" parameter.', $param));
             }
 
             call_user_func(array($this, 'set' . $param), $this->parameters[$param]);
@@ -513,7 +510,9 @@ class Wirecard
             $xmlStr = str_replace($findMe, $replaceBy, $xmlStr);
         }
 
-        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+        $this->setXmlSchema(
+            str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr)
+        );
 
         return $this;
     }
@@ -557,7 +556,9 @@ class Wirecard
 </WIRECARD_BXML>
 ";
 
-        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+        $this->setXmlSchema(
+            str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr)
+        );
 
         return $this;
     }
@@ -588,7 +589,9 @@ class Wirecard
 </WIRECARD_BXML>
 ";
 
-        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+        $this->setXmlSchema(
+            str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr)
+        );
 
         return $this;
     }
@@ -614,7 +617,9 @@ class Wirecard
     </W_REQUEST>
 </WIRECARD_BXML>';
 
-        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+        $this->setXmlSchema(
+            str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr)
+        );
 
         return $this;
     }
@@ -644,7 +649,9 @@ class Wirecard
 </WIRECARD_BXML>
 ';
 
-        $this->setXmlSchema(str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr));
+        $this->setXmlSchema(
+            str_replace(array_keys($this->getParameters()), array_values($this->getParameters()), $xmlStr)
+        );
 
         return $this;
     }
@@ -682,5 +689,4 @@ class Wirecard
 
         return $params;
     }
-
 }

@@ -2,8 +2,8 @@
 
 namespace OS\PaymentBundle\Plugins;
 
-use Symfony\Component\HttpFoundation\RedirectResponse,
-    Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * @author ouardisoft
@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse,
 class Paypal
 {
 
-    CONST URI_PAYPAL_SANDBOX = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-    CONST URI_PAYPAL_DEFAULT = 'https://www.paypal.com/cgi-bin/webscr';
+    const URI_PAYPAL_SANDBOX = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+    const URI_PAYPAL_DEFAULT = 'https://www.paypal.com/cgi-bin/webscr';
     
-    CONST IPN_VALIDATE_RESPONSE_INVALID = 'INVALID';
-    CONST IPN_VALIDATE_RESPONSE_VERIFIED = 'VERIFIED';
+    const IPN_VALIDATE_RESPONSE_INVALID = 'INVALID';
+    const IPN_VALIDATE_RESPONSE_VERIFIED = 'VERIFIED';
 
     private $uri;
     private $url;
@@ -264,5 +264,4 @@ class Paypal
     {
         $this->resultCURL = $resultCURL;
     }
-
 }

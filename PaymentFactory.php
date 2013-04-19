@@ -13,7 +13,7 @@ class PaymentFactory
     private $plugin;
     private $container;
 
-    function __construct($container)
+    public function __construct($container)
     {
         $this->container = $container;
     }
@@ -21,7 +21,7 @@ class PaymentFactory
     public function __call($name, $arguments)
     {
         $plugin = $this->getPlugin();
-        return call_user_func_array(array($plugin, $name), $arguments);        
+        return call_user_func_array(array($plugin, $name), $arguments);
     }
 
     public function getPlugin($plugin = null)
@@ -70,5 +70,4 @@ class PaymentFactory
 
         return $this;
     }
-
 }

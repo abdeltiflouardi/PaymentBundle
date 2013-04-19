@@ -155,5 +155,4 @@ class Saferpay
             'CVC'        => '123'
         );
     }
-
 }
