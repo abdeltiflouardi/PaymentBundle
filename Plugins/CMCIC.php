@@ -802,7 +802,7 @@ class CMCIC
      */
     public function getReturnVar($var)
     {
-        $this->container->get('request')->get($var);
+        return $this->container->get('request')->get($var);
     }
 
     public function cmcicRedirect()
