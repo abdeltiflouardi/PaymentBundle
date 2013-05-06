@@ -246,7 +246,17 @@ class CMCIC
         $this->setVersion('3.0');
         $this->setDate(new \DateTime());
 
+        $this->isDemo = false;
+    }
+
+    public function enableDemo()
+    {
         $this->isDemo = true;
+    }
+
+    public function disableDemo()
+    {
+        $this->isDemo = false;
     }
 
     /**
