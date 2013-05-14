@@ -47,7 +47,7 @@ class CMCIC
      *
      * @var string Payment Server URL (Ex : https://ssl.paiement.cic-banques.fr/paiement.cgi)
      */
-    private $uriPayment = 'https://ssl.paiement.cic-banques.fr';
+    private $uriPayment = 'https://ssl.paiement.cic-banques.fr/';
 
     /**
      *
