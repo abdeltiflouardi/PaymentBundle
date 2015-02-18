@@ -2,7 +2,7 @@
   "name": "os/payment-bundle",
   "description": "OS Payment Bundle for Symfony2",
   "keywords": ["payment", "wirecard", "paypal", "saferpay"],
-  "homepage": "http://github.com/ouardisoft/PaymentBundle",
+  "homepage": "http://github.com/abdeltiflouardi/PaymentBundle",
   "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
