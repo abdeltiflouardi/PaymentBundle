@@ -3,7 +3,7 @@ How to install:
 #### add in your file "deps" this code
 
      [OSPaymentBundle]
-          git=git://github.com/ouardisoft/PaymentBundle.git
+          git=git://github.com/abdeltiflouardi/PaymentBundle.git
           target=/bundles/OS/PaymentBundle
 
 #### Execute
